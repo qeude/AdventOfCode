@@ -2001,7 +2001,6 @@ let input = """
 8704
 8711
 8710
-
 """
 
 let numbers = input.split(separator: "\n").map { Int($0)! }
