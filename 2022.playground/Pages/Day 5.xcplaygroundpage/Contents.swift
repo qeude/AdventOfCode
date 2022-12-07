@@ -516,9 +516,9 @@ move 2 from 1 to 6
 """
 
 extension String {
-    var isNumber: Bool {
-        self.range(of: "^[0-9]*$", options: .regularExpression) != nil
-    }
+  var isNumber: Bool {
+    self.range(of: "^[0-9]*$", options: .regularExpression) != nil
+  }
 }
 
 let components = input.components(separatedBy: "\n\n")
