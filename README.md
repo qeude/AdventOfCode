@@ -1,2 +1,2 @@
 # 🎄 AdventOfCode 🎅
-A Swift package that includes my Solutions to the Advent of Code.
+A Swift package for my Advent of Code.
