@@ -1,0 +1,69 @@
+#!/usr/bin/xcrun --toolchain default swift
+
+import Foundation
+
+let today = Date()
+let calendar = Calendar(identifier: .gregorian)
+
+let day = calendar.component(.day, from: today)
+let month = calendar.component(.month, from: today)
+let year = calendar.component(.year, from: today)
+let todayString = "\(month)/\(day)/\(year % 100)"
+
+let u = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+let sources = u.appendingPathComponent("Sources")
+let yearFolder = sources.appendingPathComponent("\(year)")
+
+print("Creating \(yearFolder.path)")
+
+mkdir(yearFolder)
+
+for day in 1 ... 25 {
+    let dayString = String(format: "%02d", day)
+    let dayFolder = yearFolder.appendingPathComponent("Day\(dayString)")
+    mkdir(dayFolder)
+    
+    let dayContents = """
+    //
+    //  Day\(dayString).swift
+    //
+    //  Created by Quentin Eude on \(todayString).
+    //
+
+    import Common
+    import Core
+    import Foundation
+
+    @main
+    struct Day\(dayString): Day {
+      typealias Input = String
+      typealias OutputPartOne = Never
+      typealias OutputPartTwo = Never
+    }
+
+    // MARK: - Part 1
+    extension Day\(dayString) {
+      static func solvePartOne(_ input: Input) async throws -> OutputPartOne {
+        throw ExecutionError.notSolved
+      }
+    }
+
+    // MARK: - Part 2
+    extension Day\(dayString) {
+      static func solvePartTwo(_ input: Input) async throws -> OutputPartTwo {
+        throw ExecutionError.notSolved
+      }
+    }
+    """
+    dayContents >> dayFolder.appendingPathComponent("Day\(dayString).swift")
+    "" >> dayFolder.appendingPathComponent("input.txt")
+}
+
+func mkdir(_ path: URL) {
+    try? FileManager.default.createDirectory(at: path, withIntermediateDirectories: true, attributes: nil)
+}
+
+infix operator >>
+func >> (lhs: String, rhs: URL) {
+    try! Data(lhs.utf8).write(to: rhs, options: [])
+}
